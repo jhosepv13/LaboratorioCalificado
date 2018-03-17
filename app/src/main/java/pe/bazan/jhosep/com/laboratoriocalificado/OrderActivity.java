@@ -28,6 +28,7 @@ public class OrderActivity extends AppCompatActivity {
     private TextView displayText;
     private CheckBox checkBox;
     private CheckBox checkBox2;
+    private int precio, incremento, incremento2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,12 @@ public class OrderActivity extends AppCompatActivity {
 
         radioGroup =  (RadioGroup) findViewById(R.id.radioGroup);
         displayText = (TextView) findViewById(R.id.displayText);
+
+        checkBox = (CheckBox) findViewById(R.id.checkBox);
+        checkBox2 = (CheckBox) findViewById(R.id.checkBox2);
+
+        if(checkBox.isChecked())
+            Toast.makeText(this, "Primer complemento seleccionado!", Toast.LENGTH_LONG).show();
 
 
         spinner1 = (Spinner) findViewById(R.id.spinner);
@@ -55,19 +62,12 @@ public class OrderActivity extends AppCompatActivity {
 
         });
 
-
-        checkBox = (CheckBox) findViewById(R.id.checkBox);
-        checkBox2 = (CheckBox) findViewById(R.id.checkBox2);
-
-        if(checkBox.isChecked())
-            Toast.makeText(this, "Primer complemento seleccionado!", Toast.LENGTH_LONG).show();
-
     }
 
-    public void showvalue(View view){
+   /* public void showvalue(View view){
         String item = (String)spinner1.getSelectedItem();
         Toast.makeText(this, "Has seleccionado una pizza : " + item, Toast.LENGTH_SHORT).show();
-    }
+    }*/
 
     public void radioButtonClicked(View view) {
         boolean checked = ((RadioButton) view).isChecked();
@@ -127,9 +127,38 @@ public class OrderActivity extends AppCompatActivity {
 
     public void showDialog(View view){
 
+        String text = spinner1.getSelectedItem().toString();
+
+        switch (text) {
+            case "Americana":
+                precio = 38;
+                break;
+            case "Pepperoni":
+                precio = 42;
+                break;
+            case "Hawaiana":
+                precio = 36;
+                break;
+            case "Meat Lover":
+                precio = 56;
+                break;
+        }
+
+
+        if (checkBox.isChecked()==true) {
+            incremento = 4;
+        }
+
+        if (checkBox2.isChecked()==true) {
+            incremento2 = 8;
+        }
+
+
+        int suma = incremento2 + incremento + precio;
+
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Confirmación de Pedido");
-        alertDialog.setMessage("Su pedido esta siendo procesado");
+        alertDialog.setMessage("Su pedido de Meat Lover con "+ radioGroup.getTextDirection() +" a S/"+suma+" esta en proceso de envio.");
         // Alert dialog button
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
